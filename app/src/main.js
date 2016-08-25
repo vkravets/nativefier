@@ -4,6 +4,7 @@ import path from 'path';
 import {app, ipcMain} from 'electron';
 import createLoginWindow from './components/login/loginWindow';
 import createMainWindow from './components/mainWindow/mainWindow';
+import initTray from './components/tray/tray';
 import helpers from './helpers/helpers';
 import inferFlash from './helpers/inferFlash';
 import electronDownload from 'electron-dl';
@@ -64,6 +65,19 @@ app.on('before-quit', () => {
 
 app.on('ready', () => {
     mainWindow = createMainWindow(appArgs, app.quit, setDockBadge);
+
+    if (appArgs.systemTray) {
+        initTray(mainWindow, appArgs);
+
+        mainWindow.on("close", () => {
+            if( !app.isQuiting){
+                event.preventDefault();
+                mainWindow.hide();
+            }
+            return false;
+        })
+    }
+
 });
 
 app.on('login', (event, webContents, request, authInfo, callback) => {

@@ -1,8 +1,19 @@
 {
-  "name": "Google",
-  "targetUrl": "http://google.com",
+  "name": "Vkontakte.ru",
+  "targetUrl": "https://vk.com",
   "badge": false,
   "width": 1280,
   "height": 800,
-  "showMenuBar": false
+  "showMenuBar": false,
+  "hideWindowFrame": true,
+  "systemTray": {
+    "icon": "static/icon.png",
+    "popup": {
+      "enabled": true,
+      "window_height": 400,
+      "window_width": 500,
+      "padding_horizontal": 10,
+      "padding_vertical": 10
+    }
+  }
 }

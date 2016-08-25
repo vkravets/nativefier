@@ -5,6 +5,10 @@ import {ipcRenderer, webFrame} from 'electron';
 import path from 'path';
 import fs from 'fs';
 
+let pace = require('pace-js');
+console.info(pace);
+pace.start();
+
 const INJECT_JS_PATH = path.join(__dirname, '../../', 'inject/inject.js');
 
 setNotificationCallback((title, opt) => {

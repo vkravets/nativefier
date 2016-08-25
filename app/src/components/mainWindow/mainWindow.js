@@ -46,9 +46,11 @@ function createMainWindow(options, onAppQuit, setDockBadge) {
             zoomFactor: options.zoom
         },
         // after webpack path here should reference `resources/app/`
-        icon: path.join(__dirname, '../', '/icon.png'),
+        icon: options.icon !== undefined ? path.join(__dirname, '../', options.icon) : path.join(__dirname, '../', '/icon.png'),
         // set to undefined and not false because explicitly setting to false will disable full screen
-        fullscreen: options.fullScreen || undefined
+        fullscreen: options.fullScreen || undefined,
+        show: !options.systemTray.popup,
+        useContentSize: options.systemTray.popup !== undefined
     });
 
     mainWindowState.manage(mainWindow);
@@ -219,7 +221,9 @@ function maybeInjectCss(browserWindow) {
     browserWindow.webContents.on('did-navigate', () => {
         // we have to inject the css in did-get-response-details to prevent the fouc
         // will run multiple times
-        browserWindow.webContents.on('did-get-response-details', injectCss);
+        browserWindow.webContents.executeJavaScript("pace.restart();");
+
+        browserWindow.webContents.on('did-get-response-details', inject);
     });
 }
 
